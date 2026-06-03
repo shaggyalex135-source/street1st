@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Street 1st — Live Commerce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #080808;
+  --surface: #101010;
+  --card: #141414;
+  --card2: #1a1a1a;
+  --border: #242424;
+  --border2: #2e2e2e;
+  --accent: #E8340A;
+  --accent2: #FF5533;
+  --accentglow: rgba(232,52,10,0.18);
+  --gold: #D4A017;
+  --green: #00C968;
+  --text: #F0F0F0;
+  --muted: #707070;
+  --muted2: #555;
+  --white: #FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:#0a0a0a;}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+
+/* ── TYPOGRAPHY ── */
+.display{font-family:'Bebas Neue',sans-serif;letter-spacing:0.03em;line-height:0.92;}
+
+/* ── ANIMATIONS ── */
+@keyframes pulse-live{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scanDown{0%{top:-8%;}100%{top:108%;}}
+@keyframes borderGlow{0%,100%{box-shadow:0 0 0 0 var(--accentglow);}50%{box-shadow:0 0 22px 4px var(--accentglow);}}
+@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes spinSlow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes countUp{from{opacity:0;}to{opacity:1;}}
+
+.fade-up{animation:fadeUp .5s ease forwards;}
+.fade-up-d1{animation:fadeUp .5s .1s ease both;}
+.fade-up-d2{animation:fadeUp .5s .2s ease both;}
+.fade-up-d3{animation:fadeUp .5s .3s ease both;}
+.fade-up-d4{animation:fadeUp .5s .4s ease both;}
+
+/* ── LAYOUT ── */
+.container{max-width:1160px;margin:0 auto;padding:0 28px;}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(8,8,8,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:62px;
+  display:flex;align-items:center;
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;max-width:1160px;margin:0 auto;padding:0 28px;
+}
+.logo{display:flex;align-items:center;gap:6px;cursor:pointer;text-decoration:none;}
+.logo-wordmark{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--white);letter-spacing:.06em;}
+.logo-badge{
+  background:var(--accent);color:#fff;
+  font-size:10px;font-weight:800;
+  padding:2px 7px;border-radius:4px;
+  margin-top:8px;letter-spacing:.08em;
+}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-link{
+  color:var(--muted);font-size:13.5px;font-weight:500;
+  cursor:pointer;transition:color .2s;text-decoration:none;
+  border:none;background:none;
+}
+.nav-link:hover,.nav-link.active{color:var(--text);}
+.nav-actions{display:flex;gap:10px;align-items:center;}
+
+/* ── BUTTONS ── */
+.btn{
+  font-family:'DM Sans',sans-serif;
+  border:none;cursor:pointer;
+  border-radius:9px;font-weight:600;
+  transition:all .18s;display:inline-flex;
+  align-items:center;gap:8px;
+}
+.btn-primary{
+  background:var(--accent);color:#fff;
+  padding:10px 22px;font-size:14px;
+}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 8px 28px var(--accentglow);}
+.btn-outline{
+  background:transparent;color:var(--text);
+  border:1px solid var(--border2);
+  padding:10px 22px;font-size:14px;
+}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.btn-lg{padding:15px 36px;font-size:16px;border-radius:11px;}
+.btn-sm{padding:8px 16px;font-size:13px;border-radius:8px;}
+
+/* ── LIVE DOT ── */
+.live-dot{
+  display:inline-block;width:8px;height:8px;
+  border-radius:50%;background:var(--accent);
+  animation:pulse-live 1.3s ease-in-out infinite;
+  flex-shrink:0;
+}
+.live-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
+  border-radius:20px;padding:4px 10px;
+  font-size:11px;font-weight:700;color:#fff;letter-spacing:.06em;
+}
+
+/* ── CARDS ── */
+.stream-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  cursor:pointer;
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+}
+.stream-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 16px 48px rgba(232,52,10,.15);
+  border-color:rgba(232,52,10,.35);
+}
+.thumb{
+  position:relative;height:196px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.thumb-scanline{
+  position:absolute;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(232,52,10,.5),transparent);
+  animation:scanDown 3.5s linear infinite;
+  pointer-events:none;
+}
+.thumb-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 55%);
+  pointer-events:none;
+}
+.verified-badge{
+  position:absolute;top:11px;right:11px;
+  display:flex;align-items:center;gap:5px;
+  background:rgba(0,201,104,.15);
+  border:1px solid rgba(0,201,104,.4);
+  border-radius:20px;padding:3px 9px;
+  font-size:11px;font-weight:700;color:var(--green);
+}
+.card-body{padding:14px 15px;}
+.seller-row{display:flex;align-items:center;justify-content:space-between;}
+.seller-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--card2);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.rating-chip{
+  display:flex;align-items:center;gap:4px;
+  font-size:12px;font-weight:600;color:var(--gold);
+}
+.category-tag{
+  display:inline-block;
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:20px;padding:3px 11px;
+  font-size:11px;color:var(--muted);cursor:pointer;
+  transition:all .18s;
+}
+.category-tag:hover,.category-tag.active{
+  background:rgba(232,52,10,.12);
+  border-color:rgba(232,52,10,.5);color:var(--accent2);
+}
+
+/* ── TRUST / FEATURE CARDS ── */
+.feature-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;padding:24px;
+  transition:border-color .2s,transform .2s;
+}
+.feature-card:hover{
+  border-color:rgba(232,52,10,.3);
+  transform:translateY(-3px);
+}
+.icon-box{
+  width:52px;height:52px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;flex-shrink:0;
+}
+.icon-box-accent{background:rgba(232,52,10,.12);border:1px solid rgba(232,52,10,.25);}
+.icon-box-green{background:rgba(0,201,104,.1);border:1px solid rgba(0,201,104,.2);}
+.icon-box-gold{background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.2);}
+
+/* ── STATS ── */
+.stat-bar{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:20px 0;
+}
+.stat-item{text-align:center;}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--accent);letter-spacing:.04em;}
+.stat-label{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* ── SECTION TITLES ── */
+.section-title{font-size:clamp(36px,5vw,52px);}
+.section-sub{font-size:15px;color:var(--muted);margin-top:8px;line-height:1.6;}
+
+/* ── GRID ── */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.grid-streams{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:20px;}
+
+/* ── TABS ── */
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;}
+.tab-btn{
+  font-family:'DM Sans',sans-serif;
+  background:var(--card);border:1px solid var(--border);
+  color:var(--muted);padding:9px 22px;border-radius:9px;
+  font-size:14px;font-weight:600;cursor:pointer;
+  transition:all .18s;display:flex;align-items:center;gap:8px;
+}
+.tab-btn:hover{border-color:var(--border2);color:var(--text);}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* ── STEPS ── */
+.step-dot{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:18px;
+  flex-shrink:0;cursor:pointer;transition:all .2s;
+}
+.step-dot.done,.step-dot.active{background:var(--accent);color:#fff;border:2px solid var(--accent);}
+.step-dot.inactive{background:var(--card2);color:var(--muted);border:2px solid var(--border);}
+.step-connector{height:2px;flex:1;transition:background .3s;}
+
+/* ── FORM ── */
+.form-input{
+  font-family:'DM Sans',sans-serif;
+  background:var(--card2);border:1px solid var(--border);
+  color:var(--text);padding:12px 16px;
+  border-radius:10px;font-size:14px;
+  outline:none;width:100%;
+  transition:border-color .2s;
+}
+.form-input:focus{border-color:var(--accent);}
+.form-input::placeholder{color:var(--muted2);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:48px 0 24px;
+  margin-top:80px;
+}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.footer-link{
+  font-size:13px;color:var(--muted);
+  display:block;margin-bottom:10px;
+  cursor:pointer;transition:color .2s;text-decoration:none;
+}
+.footer-link:hover{color:var(--text);}
+.footer-col-title{font-size:12px;font-weight:700;color:var(--muted2);letter-spacing:.1em;margin-bottom:14px;}
+
+/* ── HERO GLOW ── */
+.hero-glow{
+  position:absolute;
+  width:700px;height:500px;
+  background:radial-gradient(ellipse,rgba(232,52,10,.12) 0%,transparent 70%);
+  top:-100px;left:50%;transform:translateX(-50%);
+  pointer-events:none;
+}
+.noise-overlay{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ── SECTION SPACING ── */
+.section{padding:64px 0;}
+
+/* ── PRICE TAG ── */
+.price-tag{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:17px;color:var(--accent2);letter-spacing:.04em;
+}
+
+/* ── TRUST PILL ── */
+.trust-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:5px 14px;
+  font-size:11px;color:var(--muted);
+}
+
+/* ── PAGE VISIBILITY ── */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ── SEARCH ── */
+.search-bar{
+  display:flex;align-items:center;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:11px;padding:0 16px;gap:10px;
+  transition:border-color .2s;
+}
+.search-bar:focus-within{border-color:var(--accent);}
+.search-bar input{
+  font-family:'DM Sans',sans-serif;
+  background:none;border:none;color:var(--text);
+  padding:11px 0;font-size:14px;outline:none;
+  flex:1;
+}
+.search-bar input::placeholder{color:var(--muted2);}
+
+/* ── HOW IT WORKS ROW ── */
+.hiw-row{
+  display:flex;gap:20px;align-items:flex-start;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:24px;margin-bottom:12px;
+  transition:border-color .2s,transform .2s;
+}
+.hiw-row:hover{border-color:rgba(232,52,10,.25);transform:translateX(4px);}
+
+/* ── AUTH CARD ── */
+.auth-wrap{
+  min-height:80vh;display:flex;
+  align-items:center;justify-content:center;padding:40px 24px;
+}
+.auth-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:44px;width:100%;max-width:420px;
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .hero-btns{flex-direction:column;align-items:center;}
+  .stat-bar-inner{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+
+<!-- ══════════════════════════════════════════════ NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" onclick="showPage('home')">
+      <!-- SVG Logo Icon: play signal -->
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="13" stroke="#E8340A" stroke-width="1.5" fill="none"/>
+        <path d="M11 9.5L20 14L11 18.5V9.5Z" fill="#E8340A"/>
+        <circle cx="14" cy="14" r="3" fill="none" stroke="#E8340A" stroke-width="1" opacity=".4"/>
+      </svg>
+      <span class="logo-wordmark">STREET</span>
+      <span class="logo-badge">1ST</span>
+    </a>
+    <div class="nav-links">
+      <span class="nav-link active" id="nav-home" onclick="showPage('home')">Home</span>
+      <span class="nav-link" id="nav-browse" onclick="showPage('browse')">Browse</span>
+      <span class="nav-link" id="nav-sell" onclick="showPage('sell')">Sell</span>
+      <span class="nav-link" id="nav-how" onclick="showPage('how')">How It Works</span>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-outline btn-sm" onclick="showPage('login')">Log In</button>
+      <button class="btn btn-primary btn-sm" onclick="showPage('signup')">
+        <!-- SVG: person plus icon -->
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="6" cy="4.5" r="2.5" stroke="white" stroke-width="1.4"/>
+          <path d="M1 12c0-2.5 2-4 5-4s5 1.5 5 4" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M11 1v4M9 3h4" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        Sign Up Free
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════ PAGE: HOME -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div style="position:relative;padding:88px 0 64px;text-align:center;overflow:hidden;">
+    <div class="hero-glow"></div>
+    <!-- Decorative grid lines -->
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(232,52,10,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,52,10,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;"></div>
+
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="fade-up" style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,52,10,.1);border:1px solid rgba(232,52,10,.25);border-radius:24px;padding:6px 16px;margin-bottom:28px;">
+        <span class="live-dot"></span>
+        <span style="font-size:12px;font-weight:700;color:var(--accent2);letter-spacing:.1em;" id="hero-viewers">17,284 PEOPLE WATCHING NOW</span>
+      </div>
+      <h1 class="display fade-up-d1" style="font-size:clamp(58px,9vw,108px);color:var(--white);margin-bottom:16px;">
+        BUY &amp; SELL<br>
+        <span style="color:var(--accent);">LIVE.</span> FOR REAL.
+      </h1>
+      <p class="fade-up-d2" style="font-size:17px;color:var(--muted);max-width:520px;margin:0 auto 40px;line-height:1.65;">
+        The live commerce platform built on trust. Shop verified sellers in real-time — or launch your stream and get paid today.
+      </p>
+      <div class="hero-btns fade-up-d3" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary btn-lg" onclick="showPage('browse')">
+          <!-- SVG: signal/broadcast icon -->
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3 9C3 5.69 5.69 3 9 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M15 9C15 12.31 12.31 15 9 15" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M5.5 9C5.5 7.07 7.07 5.5 9 5.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M12.5 9C12.5 10.93 10.93 12.5 9 12.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="9" cy="9" r="1.5" fill="white"/>
+          </svg>
+          Watch Live Streams
+        </button>
+        <button class="btn btn-outline btn-lg" onclick="showPage('sell')">
+          <!-- SVG: video camera icon -->
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <rect x="1.5" y="4.5" width="11" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12.5 7.5L16.5 5.5V12.5L12.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          Start Selling Free
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stat-bar">
+    <div class="container">
+      <div class="stat-bar-inner" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+        <div class="stat-item">
+          <div class="stat-val">12,400+</div>
+          <div class="stat-label">Active Sellers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">$2.8M</div>
+          <div class="stat-label">Paid Out This Month</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">98.7%</div>
+          <div class="stat-label">Buyer Satisfaction</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">8%</div>
+          <div class="stat-label">Platform Fee — Industry Lowest</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE NOW -->
+  <div class="section">
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="live-dot"></span>
+          <h2 class="display" style="font-size:42px;">LIVE NOW</h2>
+        </div>
+        <span style="font-size:14px;color:var(--accent2);cursor:pointer;font-weight:600;" onclick="showPage('browse')">
+          See All Streams →
+        </span>
+      </div>
+      <div class="tab-row" style="margin-bottom:28px;" id="home-cats"></div>
+      <div class="grid-streams" id="home-streams"></div>
+    </div>
+  </div>
+
+  <!-- TRUST SECTION -->
+  <div class="section" style="border-top:1px solid var(--border);">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px;">
+        <h2 class="display section-title">WHY BUYERS
+          <span style="color:var(--green);">TRUST US</span>
+        </h2>
+        <p class="section-sub">Every feature is designed to protect your purchase from start to finish.</p>
+      </div>
+      <div class="grid-3" id="trust-grid"></div>
+    </div>
+  </div>
+
+  <!-- CTA BANNER -->
+  <div class="section">
+    <div class="container">
+      <div style="background:linear-gradient(135deg,var(--card) 0%,#1c0a06 100%);border:1px solid rgba(232,52,10,.25);border-radius:20px;padding:52px 40px;text-align:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(232,52,10,.08),transparent);pointer-events:none;"></div>
+        <h2 class="display" style="font-size:clamp(36px,5vw,60px);margin-bottom:12px;position:relative;">READY TO START SELLING?</h2>
+        <p style="color:var(--muted);font-size:16px;margin-bottom:28px;position:relative;">Keep 92% of every sale. No upfront cost. Get paid within 24 hours.</p>
+        <button class="btn btn-primary btn-lg" onclick="showPage('sell')" style="position:relative;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M9 3L9 15M3 9L9 3L15 9" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Launch My Store
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-home -->
+
+<!-- ══════════════════════════════════════════════ PAGE: BROWSE -->
+<div class="page" id="page-browse">
+  <div class="section">
+    <div class="container">
+      <h1 class="display" style="font-size:52px;margin-bottom:6px;">BROWSE STREAMS</h1>
+      <p style="color:var(--muted);margin-bottom:32px;">Live sellers. Real products. Prices from <span style="color:var(--accent2);font-weight:600;">$5</span> and up.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:24px;">
+        <div class="search-bar" style="width:280px;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="6.5" cy="6.5" r="4.5" stroke="var(--muted)" stroke-width="1.4"/>
+            <path d="M10 10L14 14" stroke="var(--muted)" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          <input type="text" placeholder="Search sellers or items..." id="browse-search" oninput="filterStreams()"/>
+        </div>
+        <div class="tab-row" id="browse-cats"></div>
+      </div>
+      <div class="grid-streams" id="browse-streams"></div>
+      <div id="browse-empty" style="display:none;text-align:center;padding:60px 0;color:var(--muted);">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin-bottom:16px;opacity:.3;">
+          <circle cx="20" cy="20" r="14" stroke="var(--muted)" stroke-width="2"/>
+          <path d="M30 30L44 44" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div style="font-size:16px;font-weight:600;">No streams found</div>
+        <div style="font-size:13px;margin-top:4px;">Try a different search or category</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ PAGE: SELL -->
+<div class="page" id="page-sell">
+  <div class="section">
+    <div class="container" style="max-width:860px;">
+      <div style="text-align:center;margin-bottom:52px;">
+        <h1 class="display" style="font-size:60px;margin-bottom:10px;">START SELLING</h1>
+        <p style="color:var(--muted);font-size:17px;">Launch your first stream today. Keep <span style="color:var(--green);font-weight:700;">92%</span> of every sale.</p>
+      </div>
+
+      <!-- STEP TRACKER -->
+      <div style="display:flex;align-items:center;margin-bottom:44px;" id="step-tracker"></div>
+
+      <!-- STEP CONTENT -->
+      <div id="step-content" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:36px;margin-bottom:24px;"></div>
+
+      <div style="display:flex;justify-content:space-between;">
+        <button class="btn btn-outline" id="btn-back" onclick="sellStep(-1)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L4 8L10 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back
+        </button>
+        <button class="btn btn-primary" id="btn-next" onclick="sellStep(1)">
+          Continue
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 3L12 8L6 13" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- SELLER BENEFITS -->
+      <div style="margin-top:56px;border-top:1px solid var(--border);padding-top:48px;">
+        <h2 class="display" style="font-size:38px;text-align:center;margin-bottom:32px;">SELLER <span style="color:var(--accent);">ADVANTAGES</span></h2>
+        <div class="grid-2" id="seller-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ PAGE: HOW IT WORKS -->
+<div class="page" id="page-how">
+  <div class="section">
+    <div class="container" style="max-width:860px;">
+      <h1 class="display" style="font-size:56px;text-align:center;margin-bottom:8px;">HOW IT WORKS</h1>
+      <p style="color:var(--muted);text-align:center;margin-bottom:36px;font-size:16px;">Built for trust on both sides of every transaction.</p>
+
+      <div class="tab-row" style="justify-content:center;margin-bottom:40px;">
+        <button class="tab-btn active" id="tab-buyer" onclick="switchHIW('buyer')">
+          <!-- SVG: buyer / person icon -->
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M2 14c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          I'm a Buyer
+        </button>
+        <button class="tab-btn" id="tab-seller" onclick="switchHIW('seller')">
+          <!-- SVG: camera icon -->
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <rect x="1" y="4" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M11 7L15 5V11L11 9" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          I'm a Seller
+        </button>
+      </div>
+      <div id="hiw-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ PAGE: LOGIN -->
+<div class="page" id="page-login">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div style="text-align:center;margin-bottom:32px;">
+        <div style="width:52px;height:52px;background:rgba(232,52,10,.1);border:1px solid rgba(232,52,10,.25);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+          <!-- SVG: lock/key icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="11" width="16" height="11" rx="2" stroke="#E8340A" stroke-width="1.6"/>
+            <path d="M8 11V7a4 4 0 018 0v4" stroke="#E8340A" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="12" cy="16" r="1.5" fill="#E8340A"/>
+          </svg>
+        </div>
+        <h2 class="display" style="font-size:38px;margin-bottom:4px;">WELCOME BACK</h2>
+        <p style="color:var(--muted);font-size:14px;">Log into your Street 1st account</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <input class="form-input" type="email" placeholder="Email Address"/>
+        <input class="form-input" type="password" placeholder="Password"/>
+        <div style="text-align:right;margin-top:-4px;">
+          <span style="font-size:13px;color:var(--accent2);cursor:pointer;">Forgot password?</span>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:15px;margin-top:4px;" onclick="showPage('home')">
+          <!-- SVG: arrow right icon -->
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Log In
+        </button>
+      </div>
+      <div style="text-align:center;margin-top:20px;font-size:13px;color:var(--muted);">
+        Don't have an account?
+        <span style="color:var(--accent2);cursor:pointer;font-weight:600;" onclick="showPage('signup')"> Sign Up Free</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ PAGE: SIGNUP -->
+<div class="page" id="page-signup">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div style="text-align:center;margin-bottom:32px;">
+        <div style="width:52px;height:52px;background:rgba(232,52,10,.1);border:1px solid rgba(232,52,10,.25);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+          <!-- SVG: sparkle/star icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3L13.8 9H20L14.9 13L16.7 19L12 15.5L7.3 19L9.1 13L4 9H10.2L12 3Z" stroke="#E8340A" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="display" style="font-size:38px;margin-bottom:4px;">JOIN STREET 1ST</h2>
+        <p style="color:var(--muted);font-size:14px;">Free to join. Free to sell. Always.</p>
+      </div>
+      <div class="form-grid" style="margin-bottom:12px;">
+        <input class="form-input" type="text" placeholder="First Name"/>
+        <input class="form-input" type="text" placeholder="Last Name"/>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <input class="form-input" type="email" placeholder="Email Address"/>
+        <input class="form-input" type="tel" placeholder="Phone Number"/>
+        <input class="form-input" type="password" placeholder="Create Password"/>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:15px;margin-top:4px;" onclick="showPage('home')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="5" r="3" stroke="white" stroke-width="1.5"/>
+            <path d="M2 14c0-3 2.5-5 6-5s6 2 6 5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M13 1v4M11 3h4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Create Free Account
+        </button>
+      </div>
+      <p style="text-align:center;font-size:11px;color:var(--muted2);margin-top:16px;line-height:1.6;">
+        By signing up you agree to our Terms of Service &amp; Privacy Policy.<br>
+        Your data is never sold or shared with third parties.
+      </p>
+      <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--muted);">
+        Already have an account?
+        <span style="color:var(--accent2);cursor:pointer;font-weight:600;" onclick="showPage('login')"> Log In</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom:16px;display:inline-flex;">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="13" stroke="#E8340A" stroke-width="1.5" fill="none"/>
+            <path d="M11 9.5L20 14L11 18.5V9.5Z" fill="#E8340A"/>
+          </svg>
+          <span class="logo-wordmark" style="margin-left:6px;">STREET</span>
+          <span class="logo-badge">1ST</span>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;max-width:220px;">The live commerce platform built on trust, transparency, and real community.</p>
+        <div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;">
+          <span class="trust-pill">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L7.5 4.5H11L8 6.5L9.5 10L6 8L2.5 10L4 6.5L1 4.5H4.5L6 1Z" stroke="var(--muted)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            Verified Platform
+          </span>
+          <span class="trust-pill">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="2" y="5" width="8" height="6" rx="1" stroke="var(--muted)" stroke-width="1.2"/><path d="M4 5V3.5a2 2 0 014 0V5" stroke="var(--muted)" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Secure Payments
+          </span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">PLATFORM</div>
+        <a class="footer-link" onclick="showPage('browse')">Browse Streams</a>
+        <a class="footer-link" onclick="showPage('how')">How It Works</a>
+        <a class="footer-link">Trust &amp; Safety</a>
+        <a class="footer-link">Fee Structure</a>
+      </div>
+      <div>
+        <div class="footer-col-title">SELLERS</div>
+        <a class="footer-link" onclick="showPage('sell')">Start Selling</a>
+        <a class="footer-link">Seller Guide</a>
+        <a class="footer-link">Payout Info</a>
+        <a class="footer-link">Verification</a>
+      </div>
+      <div>
+        <div class="footer-col-title">SUPPORT</div>
+        <a class="footer-link">Help Center</a>
+        <a class="footer-link">Report a Problem</a>
+        <a class="footer-link">Dispute Resolution</a>
+        <a class="footer-link">Contact Us</a>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div style="font-size:12px;color:var(--muted2);">© 2025 Street 1st. All rights reserved.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="trust-pill" style="font-size:10px;">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1L6.7 4H10L7.3 5.8L8.5 9L5.5 7.2L2.5 9L3.7 5.8L1 4H4.3L5.5 1Z" stroke="var(--muted)" stroke-width="1.1" stroke-linejoin="round"/></svg>
+          Buyer Protection
+        </span>
+        <span class="trust-pill" style="font-size:10px;">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="2" y="5" width="7" height="5" rx="1" stroke="var(--muted)" stroke-width="1.1"/><path d="M3.5 5V3.5a2 2 0 013 0V5" stroke="var(--muted)" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Encrypted Checkout
+        </span>
+        <span class="trust-pill" style="font-size:10px;">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8L9 3" stroke="var(--muted)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Verified Sellers
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════ SVG ICON DEFS (inline sprites) -->
+<svg style="display:none">
+  <defs>
+    <!-- shield -->
+    <symbol id="ico-shield" viewBox="0 0 24 24">
+      <path d="M12 3L4 7V13C4 17.42 7.56 21.55 12 23C16.44 21.55 20 17.42 20 13V7L12 3Z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+      <path d="M8.5 12L11 14.5L15.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- checkmark circle -->
+    <symbol id="ico-check-circle" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- lock -->
+    <symbol id="ico-lock" viewBox="0 0 24 24">
+      <rect x="4" y="11" width="16" height="11" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <circle cx="12" cy="16" r="1.5" fill="currentColor"/>
+    </symbol>
+    <!-- bolt / instant -->
+    <symbol id="ico-bolt" viewBox="0 0 24 24">
+      <path d="M13 3L5 14H12L11 21L19 10H12L13 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+    </symbol>
+    <!-- package / box -->
+    <symbol id="ico-package" viewBox="0 0 24 24">
+      <path d="M3 9L12 4L21 9V19L12 22L3 19V9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+      <path d="M3 9L12 14L21 9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12 14V22" stroke="currentColor" stroke-width="1.6"/>
+    </symbol>
+    <!-- star rating -->
+    <symbol id="ico-star" viewBox="0 0 24 24">
+      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+    </symbol>
+    <!-- chart / analytics -->
+    <symbol id="ico-chart" viewBox="0 0 24 24">
+      <path d="M3 20H21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <rect x="5" y="12" width="3" height="8" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <rect x="10.5" y="7" width="3" height="13" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <rect x="16" y="4" width="3" height="16" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    </symbol>
+    <!-- payout / wallet -->
+    <symbol id="ico-wallet" viewBox="0 0 24 24">
+      <rect x="2" y="6" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M2 10H22" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="17" cy="15" r="1.5" fill="currentColor"/>
+      <path d="M2 6L6 2H18L22 6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+    </symbol>
+    <!-- stream tools -->
+    <symbol id="ico-stream" viewBox="0 0 24 24">
+      <rect x="2" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M16 10L22 7V17L16 14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M6 19H18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M12 15V19" stroke="currentColor" stroke-width="1.6"/>
+    </symbol>
+    <!-- megaphone / audience -->
+    <symbol id="ico-megaphone" viewBox="0 0 24 24">
+      <path d="M4 9H2V15H4L10 19V5L4 9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+      <path d="M10 7.5C13 7.5 16 8.5 18 11C16 13.5 13 14.5 10 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M6.5 15V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M19 6C20.5 7.5 21 9.5 21 12C21 14 20.5 15.5 19 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+    <!-- handshake -->
+    <symbol id="ico-handshake" viewBox="0 0 24 24">
+      <path d="M9 12L7 14C6.5 14.5 6.5 15.5 7 16L9 18C9.5 18.5 10.5 18.5 11 18L16 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M3 10L7 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M21 10L17 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M3 10C3 10 6 7 9 7C11 7 13 8 14 9L17 12C18 13 18 14 17 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M21 10C21 10 18 7 15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <!-- money coin -->
+    <symbol id="ico-coin" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M12 7V9M12 15V17M9.5 9.5C9.5 8.67 10.17 8 11 8H13C13.83 8 14.5 8.67 14.5 9.5C14.5 10.33 13.83 11 13 11H11C10.17 11 9.5 11.67 9.5 12.5C9.5 13.33 10.17 14 11 14H13C13.83 14 14.5 13.33 14.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <!-- id card verify -->
+    <symbol id="ico-id" viewBox="0 0 24 24">
+      <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <circle cx="8" cy="12" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/>
+      <path d="M13 9H19M13 12H17M13 15H15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <!-- list / product -->
+    <symbol id="ico-list" viewBox="0 0 24 24">
+      <path d="M9 6H20M9 12H20M9 18H20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="5" cy="6" r="1.5" fill="currentColor"/>
+      <circle cx="5" cy="12" r="1.5" fill="currentColor"/>
+      <circle cx="5" cy="18" r="1.5" fill="currentColor"/>
+    </symbol>
+    <!-- verified checkmark -->
+    <symbol id="ico-verified" viewBox="0 0 16 16">
+      <path d="M8 1L9.8 4H13L10.4 6.1L11.5 9.5L8 7.5L4.5 9.5L5.6 6.1L3 4H6.2L8 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
+      <path d="M6 8L7.5 9.5L10.5 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ══════════════════════════════════════════════ JS -->
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const CATEGORIES = ['All','Streetwear','Sneakers','Tech','Art','Music','Vintage','Jewelry','Collectibles'];
+
+const STREAMS = [
+  {id:1,seller:'KickFlip_Kenny',title:'RARE 90s Streetwear Drop',viewers:3420,cat:'Streetwear',minPrice:45,maxPrice:280,bg:'#1a0d07',verified:true,rating:4.9,sales:847,icon:'👕'},
+  {id:2,seller:'SneakerVault_NYC',title:'Deadstock Jordans & AF1s',viewers:8901,cat:'Sneakers',minPrice:120,maxPrice:600,bg:'#07101a',verified:true,rating:5.0,sales:2341,icon:'👟'},
+  {id:3,seller:'VinylDigs_LA',title:'Crate Digging LIVE — Jazz & Soul',viewers:1205,cat:'Music',minPrice:8,maxPrice:55,bg:'#0d1a07',verified:false,rating:4.7,sales:389,icon:'🎵'},
+  {id:4,seller:'ArtByMira',title:'Original Canvas Paintings',viewers:654,cat:'Art',minPrice:80,maxPrice:500,bg:'#150a1a',verified:true,rating:4.8,sales:156,icon:'🎨'},
+  {id:5,seller:'TechFlip_Dallas',title:'Refurb Tech — Tested & Graded',viewers:2109,cat:'Tech',minPrice:30,maxPrice:350,bg:'#071a18',verified:true,rating:4.6,sales:1203,icon:'💻'},
+  {id:6,seller:'VintageThreads_Chi',title:'Thrifted Vintage — 70s/80s Gold',viewers:987,cat:'Vintage',minPrice:15,maxPrice:120,bg:'#1a1a07',verified:false,rating:4.5,sales:432,icon:'🧥'},
+  {id:7,seller:'GoldGrillz_ATL',title:'Custom Jewelry & Chains',viewers:4200,cat:'Jewelry',minPrice:25,maxPrice:800,bg:'#1a1207',verified:true,rating:4.9,sales:678,icon:'💎'},
+  {id:8,seller:'CollectorKing',title:'Trading Cards & Memorabilia',viewers:1580,cat:'Collectibles',minPrice:5,maxPrice:400,bg:'#0a071a',verified:true,rating:4.7,sales:934,icon:'🃏'},
+];
+
+const TRUST_FEATS = [
+  {icon:'ico-shield',color:'green',title:'Buyer Protection',desc:'Every purchase is covered. If it\'s not as described, you get a full refund — no questions asked.'},
+  {icon:'ico-check-circle',color:'green',title:'Verified Sellers',desc:'Sellers go through ID verification, history checks, and rating reviews before going live.'},
+  {icon:'ico-lock',color:'green',title:'Secure Payments',desc:'Powered by Stripe. Your card details are never stored on our servers. Ever.'},
+  {icon:'ico-bolt',color:'accent',title:'Instant Escrow',desc:'Funds are held safely until you confirm delivery. Sellers can\'t withdraw until you\'re happy.'},
+  {icon:'ico-package',color:'accent',title:'Tracked Shipping',desc:'Every order requires a tracking number. We monitor delivery and step in if anything goes wrong.'},
+  {icon:'ico-star',color:'gold',title:'Real Rating System',desc:'Reviews from verified buyers only. Fake reviews are automatically detected and removed.'},
+];
+
+const SELLER_FEATS = [
+  {icon:'ico-coin',color:'accent',title:'Keep 92% of Every Sale',desc:'Just 8% platform fee — one of the lowest in live commerce. No hidden charges, ever.'},
+  {icon:'ico-chart',color:'accent',title:'Live Analytics Dashboard',desc:'See viewer count, conversion rate, and earnings in real-time while you stream.'},
+  {icon:'ico-wallet',color:'green',title:'24hr Payouts',desc:'Get paid within 24 hours of confirmed delivery. No waiting weeks for your own money.'},
+  {icon:'ico-stream',color:'accent',title:'Pro Streaming Tools',desc:'Built-in overlays, product cards, and one-tap checkout so viewers never leave the stream.'},
+  {icon:'ico-megaphone',color:'gold',title:'Built-in Audience',desc:'New sellers get featured placement to kickstart their first sales on day one.'},
+  {icon:'ico-handshake',color:'green',title:'Dispute Protection',desc:'Dedicated seller support team resolves buyer disputes fairly and quickly.'},
+];
+
+const SELL_STEPS = [
+  {
+    label:'Account',
+    icon:'ico-id',
+    title:'CREATE YOUR ACCOUNT',
+    sub:'Sign up free in 2 minutes. No credit card needed. You only pay when you earn.',
+    content:`
+      <div class="form-grid">
+        <input class="form-input" placeholder="Full Name"/>
+        <input class="form-input" placeholder="Username"/>
+        <input class="form-input" type="email" placeholder="Email Address"/>
+        <input class="form-input" type="tel" placeholder="Phone Number"/>
+        <input class="form-input" type="password" placeholder="Password" style="grid-column:1/-1"/>
+      </div>
+    `
+  },
+  {
+    label:'Verify',
+    icon:'ico-check-circle',
+    title:'VERIFY YOUR IDENTITY',
+    sub:'This protects buyers and earns you the Verified badge — which boosts sales by up to 60%.',
+    content:`
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;">
+        ${[['ico-id','Government ID','Driver\'s license or passport'],['ico-verified','Selfie Check','Quick photo match with your ID'],['ico-wallet','Bank / PayPal','Link your payout account']].map(([ic,t,d])=>`
+        <div style="background:var(--card2);border:1px solid var(--border);border-radius:13px;padding:22px;text-align:center;">
+          <div style="width:48px;height:48px;background:var(--accentglow);border:1px solid rgba(232,52,10,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+            <svg width="24" height="24" style="color:var(--accent2);"><use href="#${ic}" style="color:var(--accent2);" stroke="var(--accent2)"/></svg>
+          </div>
+          <div style="font-weight:700;font-size:14px;margin-bottom:4px;">${t}</div>
+          <div style="font-size:12px;color:var(--muted);">${d}</div>
+        </div>`).join('')}
+      </div>
+    `
+  },
+  {
+    label:'Products',
+    icon:'ico-list',
+    title:'LIST YOUR PRODUCTS',
+    sub:'Add products before going live. Items from $5 and up. Viewers buy with one tap.',
+    content:`
+      <div class="form-grid">
+        <input class="form-input" placeholder="Product Name"/>
+        <input class="form-input" placeholder="Price (min $5)" type="number" min="5"/>
+        <input class="form-input" placeholder="Category"/>
+        <input class="form-input" placeholder="Stock Quantity" type="number"/>
+      </div>
+      <textarea class="form-input" placeholder="Product description..." style="margin-top:12px;resize:vertical;min-height:80px;"></textarea>
+    `
+  },
+  {
+    label:'Go Live',
+    icon:'ico-stream',
+    title:'GO LIVE',
+    sub:'Hit the button and you\'re broadcasting to thousands of buyers on Street 1st.',
+    content:`
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
+        ${SELLER_FEATS.slice(0,4).map(f=>`
+        <div class="feature-card">
+          <div class="icon-box icon-box-accent">
+            <svg width="24" height="24" style="color:var(--accent2);"><use href="#${f.icon}" stroke="var(--accent2)"/></svg>
+          </div>
+          <div style="font-weight:700;font-size:14px;margin-bottom:4px;">${f.title}</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;">${f.desc}</div>
+        </div>`).join('')}
+      </div>
+    `
+  },
+  {
+    label:'Get Paid',
+    icon:'ico-wallet',
+    title:'GET PAID',
+    sub:'You keep 92% of every sale. Payouts hit your account within 24 hours of confirmed delivery.',
+    content:`
+      <div style="text-align:center;padding:16px 0;">
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;">
+          ${[['8%','Platform Fee','accent'],['24hr','Payout Speed','green'],['$0','To Start','gold']].map(([v,l,c])=>`
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px 32px;text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--${c});">${v}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${l}</div>
+          </div>`).join('')}
+        </div>
+        <p style="color:var(--muted);font-size:14px;max-width:440px;margin:0 auto;line-height:1.6;">Every transaction is processed through Stripe. No manual payouts, no delays, no excuses.</p>
+      </div>
+    `
+  }
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let currentSellStep = 0;
+let activeCat = 'All';
+let activeHIW = 'buyer';
+let browseCat = 'All';
+
+// ── PAGE ROUTING ──────────────────────────────────────────────────────────────
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  const map={home:'nav-home',browse:'nav-browse',sell:'nav-sell',how:'nav-how'};
+  if(map[id]) document.getElementById(map[id])?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='sell') renderSellStep();
+  if(id==='how') renderHIW();
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function fmtViewers(v){return v>=1000?`${(v/1000).toFixed(1)}k`:v;}
+
+function svgUse(id, size=22, colorVar='currentColor'){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" style="color:${colorVar};stroke:${colorVar};"><use href="#${id}"/></svg>`;
+}
+
+function iconBox(id, colorClass){
+  return `<div class="icon-box icon-box-${colorClass}">${svgUse(id,24,colorClass==='green'?'var(--green)':colorClass==='gold'?'var(--gold)':'var(--accent2)')}</div>`;
+}
+
+function streamCardHTML(s){
+  return `
+  <div class="stream-card" onclick="alert('Opening ${s.seller}\'s live stream...')">
+    <div class="thumb" style="background:linear-gradient(135deg,${s.bg} 0%,#181818 100%);">
+      <div class="thumb-scanline"></div>
+      <!-- Seller avatar icon placeholder using SVG signal -->
+      <svg width="72" height="72" viewBox="0 0 72 72" fill="none" opacity=".18">
+        <circle cx="36" cy="36" r="34" stroke="var(--accent)" stroke-width="1.5"/>
+        <path d="M28 24L52 36L28 48V24Z" fill="var(--accent)"/>
+      </svg>
+      <div class="thumb-overlay"></div>
+      <div style="position:absolute;top:11px;left:11px;">
+        <div class="live-pill"><span class="live-dot"></span>LIVE &nbsp;${fmtViewers(s.viewers)}</div>
+      </div>
+      ${s.verified?`<div class="verified-badge">${svgUse('ico-check-circle',12,'var(--green)')} VERIFIED</div>`:''}
+      <div style="position:absolute;bottom:12px;left:13px;right:13px;">
+        <div style="font-weight:600;font-size:13.5px;color:#fff;margin-bottom:3px;">${s.title}</div>
+        <div class="price-tag">$${s.minPrice} – $${s.maxPrice}</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="seller-row">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <div class="seller-avatar">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="5.5" r="2.5" stroke="var(--muted)" stroke-width="1.3"/>
+              <path d="M2 14c0-2.8 2.5-4.5 6-4.5s6 1.7 6 4.5" stroke="var(--muted)" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:13px;">${s.seller}</div>
+            <div style="font-size:11px;color:var(--muted);">${s.sales.toLocaleString()} sales</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div class="rating-chip">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="1">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+            ${s.rating}
+          </div>
+          <span class="category-tag" style="margin-top:4px;font-size:10.5px;">${s.cat}</span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── RENDER: HOME STREAMS ──────────────────────────────────────────────────────
+function renderHomeCats(){
+  const el=document.getElementById('home-cats');
+  if(!el)return;
+  el.innerHTML=CATEGORIES.map(c=>`<span class="category-tag${c===activeCat?' active':''}" onclick="setHomeCat('${c}')">${c}</span>`).join('');
+}
+function setHomeCat(c){activeCat=c;renderHomeCats();renderHomeStreams();}
+function renderHomeStreams(){
+  const el=document.getElementById('home-streams');
+  if(!el)return;
+  const list=activeCat==='All'?STREAMS:STREAMS.filter(s=>s.cat===activeCat);
+  el.innerHTML=list.map(streamCardHTML).join('');
+}
+
+// ── RENDER: TRUST GRID ────────────────────────────────────────────────────────
+function renderTrustGrid(){
+  const el=document.getElementById('trust-grid');
+  if(!el)return;
+  el.innerHTML=TRUST_FEATS.map(f=>`
+    <div class="feature-card">
+      ${iconBox(f.icon,f.color)}
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">${f.title}</h3>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;">${f.desc}</p>
+    </div>`).join('');
+}
+
+// ── RENDER: BROWSE ────────────────────────────────────────────────────────────
+function renderBrowseCats(){
+  const el=document.getElementById('browse-cats');
+  if(!el)return;
+  el.innerHTML=CATEGORIES.map(c=>`<span class="category-tag${c===browseCat?' active':''}" onclick="setBrowseCat('${c}')">${c}</span>`).join('');
+}
+function setBrowseCat(c){browseCat=c;renderBrowseCats();filterStreams();}
+function filterStreams(){
+  const q=(document.getElementById('browse-search')?.value||'').toLowerCase();
+  const list=STREAMS.filter(s=>(browseCat==='All'||s.cat===browseCat)&&(s.title.toLowerCase().includes(q)||s.seller.toLowerCase().includes(q)));
+  const el=document.getElementById('browse-streams');
+  const empty=document.getElementById('browse-empty');
+  if(el){el.innerHTML=list.map(streamCardHTML).join('');}
+  if(empty){empty.style.display=list.length?'none':'block';}
+}
+
+// ── RENDER: SELL PAGE ─────────────────────────────────────────────────────────
+function renderSellStep(){
+  const tracker=document.getElementById('step-tracker');
+  const content=document.getElementById('step-content');
+  const btnBack=document.getElementById('btn-back');
+  const btnNext=document.getElementById('btn-next');
+  if(!tracker||!content)return;
+
+  // Tracker
+  tracker.innerHTML=SELL_STEPS.map((s,i)=>{
+    const state=i<currentSellStep?'done':i===currentSellStep?'active':'inactive';
+    const dotStyle=state!=='inactive'?'background:var(--accent);color:#fff;border:2px solid var(--accent);':'background:var(--card2);color:var(--muted);border:2px solid var(--border);';
+    const connColor=i<currentSellStep?'var(--accent)':'var(--border)';
+    return `
+      <div onclick="currentSellStep=${i};renderSellStep();" style="display:flex;align-items:center;cursor:pointer;gap:6px;">
+        <div style="width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:17px;flex-shrink:0;transition:all .2s;${dotStyle}">${i+1}</div>
+        <span style="font-size:12px;color:${state==='active'?'var(--text)':'var(--muted)'};font-weight:${state==='active'?'600':'400'};white-space:nowrap;">${s.label}</span>
+        ${i<SELL_STEPS.length-1?`<div style="width:20px;height:2px;background:${connColor};flex-shrink:0;margin:0 4px;"></div>`:''}
+      </div>`;
+  }).join('');
+
+  const step=SELL_STEPS[currentSellStep];
+  content.innerHTML=`
+    <h2 class="display" style="font-size:38px;margin-bottom:10px;">${step.title}</h2>
+    <p style="color:var(--muted);margin-bottom:24px;font-size:14px;line-height:1.6;">${step.sub}</p>
+    ${step.content}`;
+
+  if(btnBack){btnBack.style.opacity=currentSellStep===0?'0.3':'1';btnBack.disabled=currentSellStep===0;}
+  if(btnNext){btnNext.innerHTML=currentSellStep===SELL_STEPS.length-1?'Launch My Store <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3L8 13M3 8L8 3L13 8" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>':'Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L12 8L6 13" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
+}
+
+function sellStep(dir){
+  currentSellStep=Math.max(0,Math.min(SELL_STEPS.length-1,currentSellStep+dir));
+  if(currentSellStep===SELL_STEPS.length-1&&dir===1){showPage('signup');return;}
+  renderSellStep();
+}
+
+// ── RENDER: SELLER BENEFITS ───────────────────────────────────────────────────
+function renderSellerGrid(){
+  const el=document.getElementById('seller-grid');
+  if(!el)return;
+  el.innerHTML=SELLER_FEATS.map(f=>`
+    <div class="feature-card">
+      ${iconBox(f.icon,f.color)}
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:7px;">${f.title}</h3>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;">${f.desc}</p>
+    </div>`).join('');
+}
+
+// ── RENDER: HOW IT WORKS ──────────────────────────────────────────────────────
+function switchHIW(v){
+  activeHIW=v;
+  document.getElementById('tab-buyer').classList.toggle('active',v==='buyer');
+  document.getElementById('tab-seller').classList.toggle('active',v==='seller');
+  renderHIW();
+}
+function renderHIW(){
+  const el=document.getElementById('hiw-content');
+  if(!el)return;
+  const feats=activeHIW==='buyer'?TRUST_FEATS:SELLER_FEATS;
+  el.innerHTML=feats.map(f=>`
+    <div class="hiw-row">
+      <div class="icon-box icon-box-${f.color}" style="margin-bottom:0;flex-shrink:0;">
+        ${svgUse(f.icon,24,f.color==='green'?'var(--green)':f.color==='gold'?'var(--gold)':'var(--accent2)')}
+      </div>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:6px;">${f.title}</div>
+        <div style="font-size:14px;color:var(--muted);line-height:1.6;">${f.desc}</div>
+      </div>
+      <div style="color:var(--accent);font-size:20px;flex-shrink:0;">→</div>
+    </div>`).join('');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderHomeCats();
+renderHomeStreams();
+renderTrustGrid();
+renderBrowseCats();
+filterStreams();
+renderSellerGrid();
+renderHIW();
+</script>
+</body>
+</html>
